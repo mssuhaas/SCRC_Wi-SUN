@@ -34,14 +34,31 @@
 * This code will not be maintained.
 *
 ******************************************************************************/
+#include "app.h"
+#include "app_coap.h"
 #include "app_check_neighbors.h"
+#include "sl_simple_led_instances.h"
 
 extern char json_string[];
 char tag[5];
+char status_buf[32];
+char running_str[40];
+char connected_str[40];
+sl_led_state_t led_state_nei;
 
 char * _neighbor_info_str(sl_wisun_neighbor_info_t neighbor_info, uint8_t index, char *tag) {
+
+  snprintf(running_str  , 40, dhms(now_sec()) );
+  snprintf(connected_str, 40, dhms(now_sec() - connection_time_sec) );
+
+  led_state_nei = sl_simple_led_get_state(sl_led_led0.context);
+  int8_t s1 = led_state_nei?1:0;
+  led_state_nei = sl_simple_led_get_state(sl_led_led1.context);
+  int8_t s2 = led_state_nei?1:0;
+  sprintf(status_buf,"[%d,%d]",s1,s2);
   snprintf(json_string, 1024,
-  "\"tag\":%s,\n" \
+  "\"ipv6\": %s,\n"\
+  "\"parent\":%s,\n" \
   "\"index\":%d,\n" \
   "\"type\":%ld,\n" \
   "\"lifetime\":%ld,\n" \
@@ -53,7 +70,11 @@ char * _neighbor_info_str(sl_wisun_neighbor_info_t neighbor_info, uint8_t index,
   "\"etx\":%d,\n" \
   "\"rsl_in\":%d,\n" \
   "\"rsl_out\":%d,\n" \
-  "\"is_lfn\":%d,\n",
+  "\"is_lfn\":%d,\n" \
+  "\"running\": %s,\n" \
+  "\"connected\": %s,\n" \
+  "\"state\": %s,\n",
+  device_tag,
   tag,
   index,
   neighbor_info.type,
@@ -66,7 +87,10 @@ char * _neighbor_info_str(sl_wisun_neighbor_info_t neighbor_info, uint8_t index,
   neighbor_info.etx,
   neighbor_info.rsl_in  -174,
   neighbor_info.rsl_out -174,
-  neighbor_info.is_lfn
+  neighbor_info.is_lfn,
+  running_str,
+  connected_str,
+  status_buf
   );
   return json_string;
 }

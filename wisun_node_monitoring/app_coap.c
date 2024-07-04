@@ -31,6 +31,7 @@
 * "/sensor/temp"                        Current Temperature
 * "/sensor/humidity"                    Current Humidity
 * "/sensor/light"                       Current light level
+*
 *******************************************************************************
 * # License
 * <b>Copyright 2023 Silicon Laboratories Inc. www.silabs.com</b>
@@ -77,8 +78,10 @@
 #include "sl_wisun_app_core_util.h"
 #include "sl_string.h"
 #include "app_rtt_traces.h"
+#include "sl_simple_led_instances.h"
 
-#if (SL_WISUN_VERSION_MAJOR > 2) || ((SL_WISUN_VERSION_MAJOR == 1) && (SL_WISUN_VERSION_MINOR > 8))
+
+#if (SL_WISUN_VERSION_MAJOR >= 2) || ((SL_WISUN_VERSION_MAJOR == 1) && (SL_WISUN_VERSION_MINOR > 8))
        // API_ABOVE_1_8
 #include "sl_wisun_trace_util.h"
 #else  /* API_ABOVE_1_8 */
@@ -89,15 +92,17 @@
 // -----------------------------------------------------------------------------
 //                              Macros and Typedefs
 // -----------------------------------------------------------------------------
-#define MAX_NEIGHBOR_INFO_LEN 1024
+
 // -----------------------------------------------------------------------------
 //                          Variables
 //------------------------------------------------------------------------------
 char coap_response[COAP_MAX_RESPONSE_LEN];
 uint8_t coap_response_current_len = 0;
-char neighbor_info_buffer[MAX_NEIGHBOR_INFO_LEN];
+
 sl_status_t ret;
 sl_wisun_statistics_t statistics;
+sl_led_state_t led_state;
+char response_json[64];
 // -----------------------------------------------------------------------------
 //                          Static Function Declarations
 // -----------------------------------------------------------------------------
@@ -282,7 +287,7 @@ bool _check_app_statistics_reset  (
   return false;
 }
 
-//#define   COAP_APP_STATISTICS
+#define   COAP_APP_STATISTICS
 #ifdef    COAP_APP_STATISTICS
 sl_wisun_coap_packet_t * coap_callback_join_states_sec (
       const  sl_wisun_coap_packet_t *const req_packet)  {
@@ -618,53 +623,6 @@ sl_wisun_coap_packet_t * coap_callback_auto_send (
   snprintf(coap_response, COAP_MAX_RESPONSE_LEN, "%u", auto_send_sec);
 return app_coap_reply(coap_response, req_packet); }
 
-char *get_neighbor_info_1() {
-    sl_status_t ret;
-    uint8_t neighbor_count;
-    uint8_t i;
-    char *info_ptr = neighbor_info_buffer; // Pointer to current position in buffer
-    info_ptr += snprintf(info_ptr, MAX_NEIGHBOR_INFO_LEN, "["); // Start JSON array
-
-    ret = sl_wisun_get_neighbor_count(&neighbor_count);
-    if (ret) {
-        snprintf(info_ptr, MAX_NEIGHBOR_INFO_LEN - (info_ptr - neighbor_info_buffer), "[Failed: sl_wisun_get_neighbor_count() returned 0x%04x]", (uint16_t)ret);
-        return neighbor_info_buffer;
-    }
-
-    if (neighbor_count == 0) {
-        snprintf(info_ptr, MAX_NEIGHBOR_INFO_LEN - (info_ptr - neighbor_info_buffer), "[]"); // Empty array
-        return neighbor_info_buffer;
-    }
-
-    for (i = 0; i < neighbor_count; i++) {
-        char *neighbor_info_str = app_neighbor_info_str(i);
-        if (neighbor_info_str == NULL) {
-            snprintf(info_ptr, MAX_NEIGHBOR_INFO_LEN - (info_ptr - neighbor_info_buffer), "[]"); // Empty array
-            return neighbor_info_buffer;
-        }
-        snprintf(info_ptr, MAX_NEIGHBOR_INFO_LEN - (info_ptr - neighbor_info_buffer), "%s", neighbor_info_str);
-        // Move info_ptr to the end of the string just written
-        info_ptr += strlen(neighbor_info_str);
-        // Add comma if not last neighbor
-        if (i < neighbor_count - 1) {
-            snprintf(info_ptr, MAX_NEIGHBOR_INFO_LEN - (info_ptr - neighbor_info_buffer), ",");
-            info_ptr++;
-        }
-    }
-
-    snprintf(info_ptr, MAX_NEIGHBOR_INFO_LEN - (info_ptr - neighbor_info_buffer), "]"); // End JSON array
-
-    return neighbor_info_buffer;
-}
-
-
-sl_wisun_coap_packet_t * coap_callback_check_neighbhour_status (
-  const sl_wisun_coap_packet_t *const req_packet){
-  char *neighbor_info = get_neighbor_info_1();
-  return app_coap_reply(neighbor_info, req_packet);
-}
-
-
 sl_wisun_coap_packet_t * coap_callback_trace_level (
       const  sl_wisun_coap_packet_t *const req_packet)  {
   int level = 0;
@@ -680,6 +638,75 @@ sl_wisun_coap_packet_t * coap_callback_trace_level (
   }
   snprintf(coap_response, COAP_MAX_RESPONSE_LEN, "%u", level);
 return app_coap_reply(coap_response, req_packet); }
+
+sl_wisun_coap_packet_t * coap_callback_check_neighbhour_status (
+  const sl_wisun_coap_packet_t *const req_packet){
+  char *neighbor_info = app_parent_info_str();
+  return app_coap_reply(neighbor_info, req_packet);
+}
+
+
+
+sl_wisun_coap_packet_t * coap_callback_led0on (
+  const sl_wisun_coap_packet_t *const req_packet){
+  sl_simple_led_turn_on(sl_led_led2.context);
+  printf("LED0 ON !!");
+  char *response_json = "{\"Message\": \"LED0 ON!\"}";
+  return app_coap_reply(response_json, req_packet);
+}
+
+
+sl_wisun_coap_packet_t * coap_callback_led0ff (
+  const sl_wisun_coap_packet_t *const req_packet){
+  sl_simple_led_turn_off(sl_led_led2.context);
+  printf("LED0 OFF !!");
+  char *response_json = "{\"Message\": \"LED0 OFF!\"}";
+  return app_coap_reply(response_json, req_packet);
+}
+
+sl_wisun_coap_packet_t * coap_callback_led1on (
+  const sl_wisun_coap_packet_t *const req_packet){
+  sl_simple_led_turn_on(sl_led_led3.context);
+  printf("LED1 ON !!");
+  char *response_json = "{\"Message\": \"LED1 ON!\"}";
+  return app_coap_reply(response_json, req_packet);
+}
+
+
+sl_wisun_coap_packet_t * coap_callback_led1off (
+  const sl_wisun_coap_packet_t *const req_packet){
+  sl_simple_led_turn_off(sl_led_led3.context);
+  printf("LED1 OFF !!");
+  char *response_json = "{\"Message\": \"LED1 OFF!\"}";
+  return app_coap_reply(response_json, req_packet);
+}
+
+
+sl_wisun_coap_packet_t * coap_callback_led0state (
+  const sl_wisun_coap_packet_t *const req_packet){
+  sl_led_state_t led_state = sl_simple_led_get_state(sl_led_led2.context);
+  if (led_state){
+      printf("LED0 STATE : ON ");
+      sprintf(response_json, "{\"Message\": \"LED0 state: ON\"}");
+  } else {
+      printf("LED0 STATE : OFF ");
+      sprintf(response_json, "{\"Message\": \"LED0 state: OFF\"}");
+  }
+  return app_coap_reply(response_json, req_packet);
+}
+
+sl_wisun_coap_packet_t * coap_callback_led1state (
+  const sl_wisun_coap_packet_t *const req_packet){
+  led_state = sl_simple_led_get_state(sl_led_led3.context);
+  if (led_state){
+      printf("LED1 STATE : ON ");
+      sprintf(response_json, "{\"Message\": \"LED1 state: ON\"}");
+  } else {
+      printf("LED1 STATE : OFF ");
+      sprintf(response_json, "{\"Message\": \"LED1 state: OFF\"}");
+  }
+  return app_coap_reply(response_json, req_packet);
+}
 
 
 // CoAP resources init in resource handler (one block per URI)
@@ -912,13 +939,62 @@ uint8_t app_coap_resources_init() {
   assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
   count++;
 
+  coap_resource.data.uri_path = "/led0on";
+  coap_resource.data.resource_type = "json";
+  coap_resource.data.interface = "control";
+  coap_resource.auto_response = coap_callback_led0on;
+  coap_resource.discoverable = true;
+  assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
+  count++;
+
+  coap_resource.data.uri_path = "/led0off";
+  coap_resource.data.resource_type = "json";
+  coap_resource.data.interface = "control";
+  coap_resource.auto_response = coap_callback_led0ff;
+  coap_resource.discoverable = true;
+  assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
+  count++;
+
+  coap_resource.data.uri_path = "/led1on";
+  coap_resource.data.resource_type = "json";
+  coap_resource.data.interface = "control";
+  coap_resource.auto_response = coap_callback_led1on;
+  coap_resource.discoverable = true;
+  assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
+  count++;
+
+  coap_resource.data.uri_path = "/led1off";
+  coap_resource.data.resource_type = "json";
+  coap_resource.data.interface = "control";
+  coap_resource.auto_response = coap_callback_led1off;
+  coap_resource.discoverable = true;
+  assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
+  count++;
+
+  coap_resource.data.uri_path = "/led0state";
+  coap_resource.data.resource_type = "json";
+  coap_resource.data.interface = "control";
+  coap_resource.auto_response = coap_callback_led0state;
+  coap_resource.discoverable = true;
+  assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
+  count++;
+
+  coap_resource.data.uri_path = "/led1state";
+  coap_resource.data.resource_type = "json";
+  coap_resource.data.interface = "control";
+  coap_resource.auto_response = coap_callback_led1state;
+  coap_resource.discoverable = true;
+  assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
+  count++;
+
   coap_resource.data.uri_path = "/om2m";
   coap_resource.data.resource_type = "json";
   coap_resource.data.interface = "node"; //to be written
   coap_resource.auto_response = coap_callback_check_neighbhour_status;
   coap_resource.discoverable = true;
   assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
-  count++;
+
+
 
   printf("  %d/%d CoAP resources added to CoAP Resource handler\n", count, SL_WISUN_COAP_RESOURCE_HND_MAX_RESOURCES);
   return count;
