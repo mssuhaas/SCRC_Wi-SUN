@@ -650,8 +650,8 @@ sl_wisun_coap_packet_t * coap_callback_check_neighbhour_status (
 sl_wisun_coap_packet_t * coap_callback_relay1on (
   const sl_wisun_coap_packet_t *const req_packet){
   sl_simple_led_turn_on(sl_led_relay1.context);
-  printf("LED0 ON !!");
-  char *response_json = "{\"Message\": \"LED0 ON!\"}";
+  printf("RELAY1 ON !!");
+  char *response_json = "{\"Message\": \"RELAY1 ON!\"}";
   return app_coap_reply(response_json, req_packet);
 }
 
@@ -659,16 +659,16 @@ sl_wisun_coap_packet_t * coap_callback_relay1on (
 sl_wisun_coap_packet_t * coap_callback_relay1off (
   const sl_wisun_coap_packet_t *const req_packet){
   sl_simple_led_turn_off(sl_led_relay1.context);
-  printf("LED0 OFF !!");
-  char *response_json = "{\"Message\": \"LED0 OFF!\"}";
+  printf("RELAY1 OFF !!");
+  char *response_json = "{\"Message\": \"RELAY1 OFF!\"}";
   return app_coap_reply(response_json, req_packet);
 }
 
 sl_wisun_coap_packet_t * coap_callback_relay2on (
   const sl_wisun_coap_packet_t *const req_packet){
   sl_simple_led_turn_on(sl_led_relay2.context);
-  printf("LED1 ON !!");
-  char *response_json = "{\"Message\": \"LED1 ON!\"}";
+  printf("RELAY2 ON !!");
+  char *response_json = "{\"Message\": \"RELAY2 ON!\"}";
   return app_coap_reply(response_json, req_packet);
 }
 
@@ -676,8 +676,8 @@ sl_wisun_coap_packet_t * coap_callback_relay2on (
 sl_wisun_coap_packet_t * coap_callback_relay2off (
   const sl_wisun_coap_packet_t *const req_packet){
   sl_simple_led_turn_off(sl_led_relay2.context);
-  printf("LED1 OFF !!");
-  char *response_json = "{\"Message\": \"LED1 OFF!\"}";
+  printf("RELAY2 OFF !!");
+  char *response_json = "{\"Message\": \"RELAY2 OFF!\"}";
   return app_coap_reply(response_json, req_packet);
 }
 
@@ -686,11 +686,11 @@ sl_wisun_coap_packet_t * coap_callback_relay1state (
   const sl_wisun_coap_packet_t *const req_packet){
   sl_led_state_t led_state = sl_simple_led_get_state(sl_led_relay1.context);
   if (led_state){
-      printf("LED0 STATE : ON ");
-      sprintf(response_json, "{\"Message\": \"LED0 state: ON\"}");
+      printf("RELAY1 STATE : ON ");
+      sprintf(response_json, "{\"Message\": \"RELAY1 state: ON\"}");
   } else {
-      printf("LED0 STATE : OFF ");
-      sprintf(response_json, "{\"Message\": \"LED0 state: OFF\"}");
+      printf("RELAY1 STATE : OFF ");
+      sprintf(response_json, "{\"Message\": \"RELAY1 state: OFF\"}");
   }
   return app_coap_reply(response_json, req_packet);
 }
@@ -699,11 +699,11 @@ sl_wisun_coap_packet_t * coap_callback_relay2state (
   const sl_wisun_coap_packet_t *const req_packet){
   led_state = sl_simple_led_get_state(sl_led_relay2.context);
   if (led_state){
-      printf("LED1 STATE : ON ");
-      sprintf(response_json, "{\"Message\": \"LED1 state: ON\"}");
+      printf("RELAY2 STATE : ON ");
+      sprintf(response_json, "{\"Message\": \"RELAY2 state: ON\"}");
   } else {
-      printf("LED1 STATE : OFF ");
-      sprintf(response_json, "{\"Message\": \"LED1 state: OFF\"}");
+      printf("RELAY2 STATE : OFF ");
+      sprintf(response_json, "{\"Message\": \"RELAY2 state: OFF\"}");
   }
   return app_coap_reply(response_json, req_packet);
 }
