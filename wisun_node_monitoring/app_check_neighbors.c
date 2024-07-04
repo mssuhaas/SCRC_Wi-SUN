@@ -51,9 +51,9 @@ char * _neighbor_info_str(sl_wisun_neighbor_info_t neighbor_info, uint8_t index,
   snprintf(running_str  , 40, dhms(now_sec()) );
   snprintf(connected_str, 40, dhms(now_sec() - connection_time_sec) );
 
-  led_state_nei = sl_simple_led_get_state(sl_led_led0.context);
+  led_state_nei = sl_simple_led_get_state(sl_led_relay1.context);
   int8_t s1 = led_state_nei?1:0;
-  led_state_nei = sl_simple_led_get_state(sl_led_led1.context);
+  led_state_nei = sl_simple_led_get_state(sl_led_relay2.context);
   int8_t s2 = led_state_nei?1:0;
   sprintf(status_buf,"[%d,%d]",s1,s2);
   snprintf(json_string, 1024,

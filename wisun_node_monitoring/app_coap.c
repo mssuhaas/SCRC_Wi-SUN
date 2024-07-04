@@ -647,44 +647,44 @@ sl_wisun_coap_packet_t * coap_callback_check_neighbhour_status (
 
 
 
-sl_wisun_coap_packet_t * coap_callback_led0on (
+sl_wisun_coap_packet_t * coap_callback_relay1on (
   const sl_wisun_coap_packet_t *const req_packet){
-  sl_simple_led_turn_on(sl_led_led2.context);
+  sl_simple_led_turn_on(sl_led_relay1.context);
   printf("LED0 ON !!");
   char *response_json = "{\"Message\": \"LED0 ON!\"}";
   return app_coap_reply(response_json, req_packet);
 }
 
 
-sl_wisun_coap_packet_t * coap_callback_led0ff (
+sl_wisun_coap_packet_t * coap_callback_relay1off (
   const sl_wisun_coap_packet_t *const req_packet){
-  sl_simple_led_turn_off(sl_led_led2.context);
+  sl_simple_led_turn_off(sl_led_relay1.context);
   printf("LED0 OFF !!");
   char *response_json = "{\"Message\": \"LED0 OFF!\"}";
   return app_coap_reply(response_json, req_packet);
 }
 
-sl_wisun_coap_packet_t * coap_callback_led1on (
+sl_wisun_coap_packet_t * coap_callback_relay2on (
   const sl_wisun_coap_packet_t *const req_packet){
-  sl_simple_led_turn_on(sl_led_led3.context);
+  sl_simple_led_turn_on(sl_led_relay2.context);
   printf("LED1 ON !!");
   char *response_json = "{\"Message\": \"LED1 ON!\"}";
   return app_coap_reply(response_json, req_packet);
 }
 
 
-sl_wisun_coap_packet_t * coap_callback_led1off (
+sl_wisun_coap_packet_t * coap_callback_relay2off (
   const sl_wisun_coap_packet_t *const req_packet){
-  sl_simple_led_turn_off(sl_led_led3.context);
+  sl_simple_led_turn_off(sl_led_relay2.context);
   printf("LED1 OFF !!");
   char *response_json = "{\"Message\": \"LED1 OFF!\"}";
   return app_coap_reply(response_json, req_packet);
 }
 
 
-sl_wisun_coap_packet_t * coap_callback_led0state (
+sl_wisun_coap_packet_t * coap_callback_relay1state (
   const sl_wisun_coap_packet_t *const req_packet){
-  sl_led_state_t led_state = sl_simple_led_get_state(sl_led_led2.context);
+  sl_led_state_t led_state = sl_simple_led_get_state(sl_led_relay1.context);
   if (led_state){
       printf("LED0 STATE : ON ");
       sprintf(response_json, "{\"Message\": \"LED0 state: ON\"}");
@@ -695,9 +695,9 @@ sl_wisun_coap_packet_t * coap_callback_led0state (
   return app_coap_reply(response_json, req_packet);
 }
 
-sl_wisun_coap_packet_t * coap_callback_led1state (
+sl_wisun_coap_packet_t * coap_callback_relay2state (
   const sl_wisun_coap_packet_t *const req_packet){
-  led_state = sl_simple_led_get_state(sl_led_led3.context);
+  led_state = sl_simple_led_get_state(sl_led_relay2.context);
   if (led_state){
       printf("LED1 STATE : ON ");
       sprintf(response_json, "{\"Message\": \"LED1 state: ON\"}");
@@ -939,50 +939,50 @@ uint8_t app_coap_resources_init() {
   assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
   count++;
 
-  coap_resource.data.uri_path = "/led0on";
+  coap_resource.data.uri_path = "/relay1on";
   coap_resource.data.resource_type = "json";
   coap_resource.data.interface = "control";
-  coap_resource.auto_response = coap_callback_led0on;
+  coap_resource.auto_response = coap_callback_relay1on;
   coap_resource.discoverable = true;
   assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
   count++;
 
-  coap_resource.data.uri_path = "/led0off";
+  coap_resource.data.uri_path = "/relay1off";
   coap_resource.data.resource_type = "json";
   coap_resource.data.interface = "control";
-  coap_resource.auto_response = coap_callback_led0ff;
+  coap_resource.auto_response = coap_callback_relay1off;
   coap_resource.discoverable = true;
   assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
   count++;
 
-  coap_resource.data.uri_path = "/led1on";
+  coap_resource.data.uri_path = "/relay2on";
   coap_resource.data.resource_type = "json";
   coap_resource.data.interface = "control";
-  coap_resource.auto_response = coap_callback_led1on;
+  coap_resource.auto_response = coap_callback_relay2on;
   coap_resource.discoverable = true;
   assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
   count++;
 
-  coap_resource.data.uri_path = "/led1off";
+  coap_resource.data.uri_path = "/relay2off";
   coap_resource.data.resource_type = "json";
   coap_resource.data.interface = "control";
-  coap_resource.auto_response = coap_callback_led1off;
+  coap_resource.auto_response = coap_callback_relay2off;
   coap_resource.discoverable = true;
   assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
   count++;
 
-  coap_resource.data.uri_path = "/led0state";
+  coap_resource.data.uri_path = "/relay1state";
   coap_resource.data.resource_type = "json";
   coap_resource.data.interface = "control";
-  coap_resource.auto_response = coap_callback_led0state;
+  coap_resource.auto_response = coap_callback_relay1state;
   coap_resource.discoverable = true;
   assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
   count++;
 
-  coap_resource.data.uri_path = "/led1state";
+  coap_resource.data.uri_path = "/relay2state";
   coap_resource.data.resource_type = "json";
   coap_resource.data.interface = "control";
-  coap_resource.auto_response = coap_callback_led1state;
+  coap_resource.auto_response = coap_callback_relay2state;
   coap_resource.discoverable = true;
   assert(sl_wisun_coap_rhnd_resource_add(&coap_resource) == SL_STATUS_OK);
   count++;
