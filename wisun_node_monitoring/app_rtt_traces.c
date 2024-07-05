@@ -34,7 +34,12 @@
 *
 ******************************************************************************/
 #include "app_rtt_traces.h"
-#include "sl_malloc.h"
+#ifdef  _SILICON_LABS_32B_SERIES_1             /** Product Series Identifier */
+  #include "sl_malloc.h"
+#endif
+#ifdef  _SILICON_LABS_32B_SERIES_2 
+  #include "sl_memory_manager.h"
+#endif
 
 sl_status_t app_set_all_traces(uint8_t trace_level, bool verbose) {
   sl_status_t ret;

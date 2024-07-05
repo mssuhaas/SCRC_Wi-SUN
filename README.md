@@ -1,7 +1,7 @@
 <table border="0">
   <tr>
     <td align="left" valign="middle">
-    <h1>Wi-SUN FAN1.1_FSK Node Monitoring</h1>
+    <h1>SCRC Wi-SUN Node Monitoring</h1>
   </td>
   <td align="left" valign="middle">
     <a href="https://smartcitylivinglab.iiit.ac.in">
@@ -22,9 +22,9 @@ This Repository Supports
 ![FAN 1.0 FSK](https://img.shields.io/badge/FAN%201.0-FSK-blue)
 ![FAN 1.1 FSK](https://img.shields.io/badge/FAN%201.1-FSK-blue)
 ![FAN 1.1 OFDM](https://img.shields.io/badge/FAN%201.1-OFDM-blue)
-![EFR32xG12](https://img.shields.io/badge/EFR32-Board-green)
-![EFR32xG25](https://img.shields.io/badge/EFR25-Board-green)
-![EFR32xG28](https://img.shields.io/badge/EFR28-Board-green)
+![EFR32xG12](https://img.shields.io/badge/EFR32xG12-Board-green)
+![EFR32xG25](https://img.shields.io/badge/EFR32xG25-Board-green)
+![EFR32xG28](https://img.shields.io/badge/EFR32xG28-Board-green)
 
 ## Table of Contents
 

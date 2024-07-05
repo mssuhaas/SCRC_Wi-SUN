@@ -15,6 +15,4 @@
 
 ## Known Issues:
 
-* **Compilation Error:** An error occurs when compiling for EFR32xG25 & EFR32xG28 modules in `app_rtt_traces.c` due to the inclusion of `sl_malloc.h`.
-  > **Fix:** Replace `#include "sl_malloc.h"` with `#include "sl_memory_manager.h"` when compiling for xG25 and xG28.
-
+- None
