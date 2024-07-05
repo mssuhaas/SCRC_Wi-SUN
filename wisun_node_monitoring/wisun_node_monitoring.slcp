@@ -1,4 +1,3 @@
-# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
 project_name: wisun_node_monitoring
 label: wisun_node_monitoring
 description: The Wi-SUN Node Monitoring sample application is based on Wi-SUN SoC
@@ -23,46 +22,47 @@ source:
 - {path: app_coap.c}
 - {path: app.c}
 - {path: app_init.c}
+- {path: app_list_configs.c}
 - {path: app_rtt_traces.c}
+- {path: app_tcp_server.c}
 - {path: app_timestamp.c}
+- {path: app_udp_server.c}
 - {path: main.c}
 include:
-- path: ''
+- path: .
   file_list:
   - {path: app_check_neighbors.h}
   - {path: app_coap.h}
   - {path: app.h}
   - {path: app_init.h}
+  - {path: app_list_configs.h}
   - {path: app_rtt_traces.h}
+  - {path: app_tcp_server.h}
   - {path: app_timestamp.h}
-sdk: {id: gecko_sdk, version: 4.4.2}
-toolchain_settings: []
+  - {path: app_udp_server.h}
 component:
-- {id: EFR32FG25B222F1920IM56}
-- {id: brd4001a}
-- {id: brd4271a}
-- {id: device_init}
-- {id: iostream_recommended_stream}
-- {id: iostream_retarget_stdio}
-- {id: micriumos_kernel}
-- {id: nvm3_default}
-- {id: printf}
 - {id: radio_config_brd_wisun_singlephy}
+- {id: slist}
+- {id: segger_rtt}
+- {id: iostream_retarget_stdio}
+- {id: iostream_recommended_stream}
+- {id: device_init}
+- {id: restrictions_profile_wisun_han}
+- {id: nvm3_default}
+- {id: sl_wisun_trace_util}
+- {id: sl_wisun_ota_dfu}
+- {id: micriumos_kernel}
+- {id: sl_system}
 - {id: restrictions_profile_wisun_fan_1_0}
 - {id: restrictions_profile_wisun_fan_1_1}
-- {id: restrictions_profile_wisun_han}
-- {id: segger_rtt}
-- {id: segger_rtt_printf}
-- {id: silabs_core_sl_malloc}
-- {id: sl_system}
-- {id: sl_wisun_app_core}
-- {id: sl_wisun_ota_dfu}
-- {id: sl_wisun_trace_util}
-- {id: sleeptimer}
-- {id: slist}
-- {id: wisun_config}
-- {id: wisun_stack}
 - {id: wisun_stack_debug}
+- {id: silabs_core_sl_malloc}
+- {id: printf}
+- {id: wisun_stack}
+- {id: wisun_config}
+- {id: sleeptimer}
+- {id: segger_rtt_printf}
+- {id: sl_wisun_app_core}
 configuration:
 - {name: SL_WISUN_COAP_RESOURCE_HND_MAX_RESOURCES, value: 30U}
 - {name: SL_WISUN_OTA_DFU_AUTO_INSTALL_ENABLED, value: 0U}
@@ -102,4 +102,3 @@ ui_hints:
   highlight:
   - {path: README.md, focus: true}
   - {path: config/wisun/wisun_settings.wisunconf}
-
