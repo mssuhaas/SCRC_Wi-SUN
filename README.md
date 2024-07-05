@@ -4,8 +4,13 @@
     <h1>Wi-SUN FAN1.1_FSK Node Monitoring</h1>
   </td>
   <td align="left" valign="middle">
-    <a href="https://www.silabs.com/wireless/wi-sun">
-      <img src="http://pages.silabs.com/rs/634-SLU-379/images/WGX-transparent.png"  title="Silicon Labs Gecko and Wireless Gecko MCUs" alt="EFM32 32-bit Microcontrollers" width="100"/>
+    <a href="https://smartcitylivinglab.iiit.ac.in">
+      <img src="https://smartcitylivinglab.iiit.ac.in/assets/img/logo.png"  title="Smart City Living Lab IIITH Logo" alt="Smart City Living Lab IIITH Logo" width="100"/>
+    </a>
+  </td>
+  <td align="left" valign="middle"> 
+    <a href="https://www.silabs.com">
+      <img src="https://avatars.githubusercontent.com/u/7750191?s=280&v=4" alt="SiLabs Logo" width="100" /> 
     </a>
   </td>
   </tr>
@@ -23,36 +28,36 @@ This Repository Supports
 
 ## Table of Contents
 
-1. [Introduction](#introduction)
-2. [Summary](#summary)
-3. [Software Required](#software-required)
-4. [Installation of Simplicity Studio 5](#installation-of-simplicity-studio-5)
-5. [Hardware Required](#hardware-required)
-6. [Border Router Setup](#border-router-setup)
-   - [Installation of Wi-SUN Border Router GUI](#installation-of-wi-sun-border-router-gui)
-   - [Cockpit Launch](#cockpit-launch)
-   - [Wi-SUN Dashboard Tab](#wi-sun-dashboard-tab)
-7. [Wi-SUN Dashboard](#wi-sun-dashboard)
-8. [Wi-SUN Tutorial](#wi-sun-tutorial)
-9. [Starting the Application](#starting-the-application)
-   - [Add the Wi-SUN Applications Repository to Simplicity Studio](#add-the-wi-sun-applications-repository-to-simplicity-studio)
-10. [Create Bootloader Project](#create-bootloader-project)
-11. [Creating Node Monitoring Application](#creating-node-monitoring-application)
-12. [Wi-SUN Board Configuration](#wi-sun-board-configuration)
+ - [Introduction](#introduction)
+ - [Software Required](#software-required)
+   - [Installation of Simplicity Studio 5](#installation-of-simplicity-studio-5)
+ - [Hardware Required](#hardware-required)
+    - [Border Router Setup](#border-router-setup)
+       - [Installation of Wi-SUN Border Router GUI](#installation-of-wi-sun-border-router-gui)
+       - [Cockpit Launch](#cockpit-launch)
+       - [Wi-SUN Dashboard Tab](#wi-sun-dashboard-tab)
+    - [Wi-SUN Dashboard](#wi-sun-dashboard)
+ - [Wi-SUN Tutorial](#wi-sun-tutorial)
+    - [Starting the Application](#starting-the-application)
+       - [Add the Wi-SUN Applications Repository to Simplicity Studio](#add-the-wi-sun-applications-repository-to-simplicity-studio)
+    - [Create Bootloader Project](#create-bootloader-project)
+    - [Creating Node Monitoring Application](#creating-node-monitoring-application)
+ - [Wi-SUN Board Configuration](#wi-sun-board-configuration)
    - [Wi-SUN Configuration Table](#wi-sun-configuration-table)
-13. [Checking Network Connection](#checking-network-connection)
+ - [Checking Network Connection](#checking-network-connection)
    - [Retrieve the MAC Address](#retrieve-the-mac-address)
    - [Verify Connection in Cockpit Interface](#verify-connection-in-cockpit-interface)
    - [Cross-Check via Topology](#cross-check-via-topology)
-14. [Nodes Information](#nodes-information)
-15. [Pin Configuration of LEDs and RELAYS](#pin-configuration-of-leds-and-relays)
-16. [oneM2M Overview](#onem2m-overview)
+ - [Nodes Information](#nodes-information)
+ - [Pin Configuration of LEDs and RELAYS](#pin-configuration-of-leds-and-relays)
+ - [oneM2M Overview](#onem2m-overview)
    - [oneM2M Architecture](#onem2m-architecture)
    - [Webpage Link](#webpage-link)
    - [About oneM2M Container](#about-onem2m-container)
    - [oneM2M Data Format](#onem2m-data-format)
+ - [oneM2M Tutorial Videos](#onem2m-tutorial-videos)
 
-## Summary ##
+## Introduction
 
 This project aims to implement a Wi-SUN network monitoring system using a Linux Border Router and a Wi-SUN FAN1.1_FSK node monitoring flashed on EFR32FG25.
 
@@ -71,15 +76,13 @@ The block diagram of this application is shown in the image below:
 
 ## Installation of Simplicity studio 5
 
-To know more about Simplicity Studio, you can go through the user guide
-(https://docs.silabs.com/simplicity-studio-5-users-guide/5.3.0/ss-5-users-guide-overview/)
+To know more about Simplicity Studio, you can go through the [user guide](https://docs.silabs.com/simplicity-studio-5-users-guide/5.3.0/ss-5-users-guide-overview/)
 Search Silicon labs Simplicity Studio on a browser,
 Create an Account in Simplicity Studio and
 Click on Required Installer
 <img src="https://github.com/Joswitha-123/wisunreadme/blob/main/Screenshot%202024-05-22%20104138.png" alt="MLBC">
 
-Go through the below video for complete installation process
-(https://youtu.be/ONrmMEgFYMo?si=FESHt9YXUVKaqHwz)
+Go through the below video for complete installation process [here](https://youtu.be/ONrmMEgFYMo?si=FESHt9YXUVKaqHwz)
 
 # Hardware Required
 
@@ -124,6 +127,7 @@ The Wi-SUN Dashboard tab provides direct access to wsbrd.conf configuration file
 The Wi-SUN dashboard is based on Wi-SUN technology deployed in devices on streetlights around the IIIT Hyderabad campus. Through this dashboard, we can control the streetlight status, turning them on or off. Additionally, the dashboard displays monitored parameters such as RSSI, RPL rank, ETX, and latency. A DODAG network is available to check the connections of nodes in real time. By clicking on a connection, you can see the distance between devices, and hovering over a node shows the distance from the border router to the device.
 Visit the below link to view smart city wisun dashboard
 [dashboard](https://smartcityresearch.iiit.ac.in/living_lab/dashboard/)
+
 **Features**:
 1. View the number of devices linked to a single control point. Control points are displayed in a rectangular shape.
 2. Control the streetlights. 
@@ -178,10 +182,11 @@ Ensure the build completes with zero errors.
 <img src="https://github.com/Joswitha-123/wisunreadme/blob/main/Screenshot%202024-05-22%20112514.png" alt="MLBC">
 
 # Creating Node Monitoring Application:
-1.click on start:
+
+1. Click on start:
 <img src="https://github.com/Joswitha-123/wisunreadme/blob/main/Screenshot%202024-05-22%20114557.png" alt="MLBC">
 
-2.Click on Example Projects and Demos.
+2. Click on Example Projects and Demos.
 <img src="https://github.com/Joswitha-123/wisunreadme/blob/main/Screenshot%202024-05-22%20114621.png" alt="MLBC">
 
 3. Scroll down to the provider section, where you will find Wi-SUN applications listed along with the Gecko SDK.
@@ -192,16 +197,17 @@ Ensure the build completes with zero errors.
 5. Locate the resource called `Wi-SUN Node Monitoring Application` and click on `Create`.
 <img src="https://github.com/vaibhavnaware01/FAN11_FSK_FG25/blob/main/images/Screenshot%202024-07-04%20155104.png" alt="MLBC">
 
-6.Project Configuration:
+6. Project Configuration:
 1. You will be prompted with the project configuration screen, where you can select the target SDK and examples.
 2. Review and confirm the project name and location.
 3. Click on `Finish` to complete the setup.
 <img src="https://github.com/Joswitha-123/wisunreadme/blob/main/Screenshot%202024-05-22%20114645.png" alt="MLBC">
 
-7.Board Configuration
+7. Board Configuration
 Now a new project is created. Follow these steps to configure the board:
- Access the Project Configuration
-1.Locate the project file in your project directory.
+ 
+**Access the Project Configuration**:
+1. Locate the project file in your project directory.
 <img src="https://github.com/Joswitha-123/wisunreadme/blob/main/Screenshot%202024-05-22%20114655.png" alt="MLBC">
 Right click on the project file and go to show in and then to system explorer
 <img src="https://github.com/vaibhavnaware01/FAN11_FSK_FG25/blob/main/images/Screenshot%202024-05-23%20121541.png" alt="MLBC">
@@ -257,7 +263,7 @@ And press ctrl+s to save the Wi-SUN configuration
 
 # Checking Network Connection
 To verify if the device is connected to the desired network, follow these steps:
-# Retrieve the MAC Address
+## Retrieve the MAC Address
 1.	Connect the device to your system.
 2.Go to Debug adapters and right click on the board name
 3. Click on `Launch Console`.
@@ -266,14 +272,14 @@ To verify if the device is connected to the desired network, follow these steps:
 <img src="https://github.com/Joswitha-123/wisunreadme/blob/main/Screenshot%202024-05-22%20121230.png" alt="MLBC">
 5. You can get the MAC address of the device
 <img src="https://github.com/Joswitha-123/wisunreadme/blob/main/Screenshot%202024-05-22%20121245.png" alt="MLBC">
-# Verify Connection in Cockpit Interface
+## Verify Connection in Cockpit Interface
 1. Open the Cockpit interface.
 2. Click on `Terminal`.
 <img src="https://github.com/Joswitha-123/wisunreadme/blob/main/Screenshot%202024-05-22%20121250.png" alt="MLBC">
 3. Enter the command `wsbrd_cli status`.
 <img src="https://github.com/Joswitha-123/wisunreadme/blob/main/Screenshot%202024-05-22%20121256.png" alt="MLBC">
 4. This will display the connected nodes. You can check here to confirm if your device is connected to the network.
-# Cross-Check via Topology
+## Cross-Check via Topology
 1. Alternatively, you can click on `Topology` in the Cockpit interface.
 2. Locate your node in the displayed network topology to verify its connection status.
 3. For this version ,this won’t work, we can do this for the versions which it can be applicable
@@ -309,7 +315,7 @@ Below is the functional Architecture of onem2m
 
 ## Webpage Link 
 Visit the below link for onem2m webpage
-[oneM2M Link](http://onem2m.iiit.ac.in:443/webpage/welcome/index.html?context=/~&cseId=in-cse)
+[oneM2M Link](http://onem2m.iiit.ac.in:443/webpage/)
 
 
 ## About oneM2M Container
