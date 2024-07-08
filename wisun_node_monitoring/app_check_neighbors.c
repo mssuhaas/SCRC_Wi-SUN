@@ -57,8 +57,8 @@ char * _neighbor_info_str(sl_wisun_neighbor_info_t neighbor_info, uint8_t index,
   int8_t s2 = led_state_nei?1:0;
   sprintf(status_buf,"[%d,%d]",s1,s2);
   snprintf(json_string, 1024,
-  "\"ipv6\": %s,\n"\
-  "\"parent\":%s,\n" \
+  "{\"ipv6\": \"%s\",\n"\
+  "\"parent\":\"%s\",\n" \
   "\"index\":%d,\n" \
   "\"type\":%ld,\n" \
   "\"lifetime\":%ld,\n" \
@@ -71,9 +71,9 @@ char * _neighbor_info_str(sl_wisun_neighbor_info_t neighbor_info, uint8_t index,
   "\"rsl_in\":%d,\n" \
   "\"rsl_out\":%d,\n" \
   "\"is_lfn\":%d,\n" \
-  "\"running\": %s,\n" \
-  "\"connected\": %s,\n" \
-  "\"state\": %s,\n",
+  "\"running\": \"%s\",\n" \
+  "\"connected\": \"%s\",\n" \
+  "\"state\": %s}\n",
   device_tag,
   tag,
   index,
