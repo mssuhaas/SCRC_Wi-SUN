@@ -450,8 +450,8 @@ void app_task(void *args)
     // We can only send messages outside if connected
     if (join_state == SL_WISUN_JOIN_STATE_OPERATIONAL) {
       to_udp = to_coap = true;
-//      sl_simple_led_turn_on(sl_led_led0.context);
-//      sl_simple_led_turn_on(sl_led_led1.context);
+      sl_simple_led_turn_on(sl_led_led0.context);
+      sl_simple_led_turn_on(sl_led_led1.context);
       #ifdef    WITH_TCP_SERVER
         check_tcp_server_messages();
       #endif /* WITH_TCP_SERVER */
